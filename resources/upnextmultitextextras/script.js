@@ -92,6 +92,7 @@ function addMatch(){
 	const div = document.createElement('div');
 	div.id = "div" + count;
 	div.innerHTML = `
+	<h2>Game ${count}</h2>
 	<label for="home${count}">Home Team:</label>
     <input type="text" id="home${count}" name="home${count}"/>
 	<label for="away${count}">Away Team:</label>
@@ -108,6 +109,7 @@ function addMatch(){
 		<option value="otaki_crest">Otaki</option>
 		<option value="manakau_crest">Manakau</option>
 	</select><br>
+	<h2>------------------------------------------------</h2>
   `;
   document.getElementById('matches').appendChild(div);
 }

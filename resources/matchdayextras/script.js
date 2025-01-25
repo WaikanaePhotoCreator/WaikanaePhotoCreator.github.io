@@ -1,7 +1,6 @@
-const halfTemplateImg = "./scoreextras/halfbasetemplate.png";
-const fullTemplateImg = "./scoreextras/fullbasetemplate.png";
-const actionX = 645;
-const actionY = 930;
+const templateImg = "./matchdayextras/template.png";
+const actionX = 660;
+const actionY = 940;
 var focusX,focusY;
 
 function loadActionImage() {
@@ -64,10 +63,10 @@ function getCursorPosition(canvas, event) {
     console.log("x: " + focusX + " y: " + focusY);
 	var finalCanvas = document.getElementById('myCanvas'),
 	context = finalCanvas.getContext('2d');
-	context.drawImage(canvas, focusX-(actionX/2), focusY-(actionY/2),actionX,actionY,355,335,actionX,actionY);
+	context.drawImage(canvas, focusX-(actionX/2), focusY-(actionY/2),actionX,actionY,355,355,actionX,actionY);
 }
 
-function generateImage(home,away,crest,hscore,ascore,fullorhalf){
+function generateImage(home,away,crest,placetext,timetext){
 	var canvas = document.getElementById('myCanvas'),
 	context = canvas.getContext('2d');
 	
@@ -75,12 +74,7 @@ function generateImage(home,away,crest,hscore,ascore,fullorhalf){
 	let base_image = new Image();
 	let crest_image = new Image();
 	
-	console.log(fullorhalf);
-	if(fullorhalf == "full"){
-		base_image.src = fullTemplateImg;
-	}else if(fullorhalf == "half"){
-		base_image.src = halfTemplateImg;
-	}
+	base_image.src = templateImg;
 	
 	crest_image.src = "./clubicons/" + crest + ".png";
 	let images = [base_image, crest_image]
@@ -95,24 +89,22 @@ function generateImage(home,away,crest,hscore,ascore,fullorhalf){
 	Promise.all(images.map(imageIsLoaded)).then(() => {
 		//Draw Images
 		context.drawImage(base_image, 0, 0);
-		context.drawImage(crest_image, 75, 650);
+		context.drawImage(crest_image, 70, 850);
 		
 		//Set Constants
 		context.textAlign = "center";
 		context.textBaseline = "top";
 			
-		//Draw Scores
-		context.font = '220px Audiowide';
-		context.fillStyle = "#000000";
-		context.fillText(hscore, 200, 400);
-		context.fillStyle = "#FFFFFF";
-		context.fillText(ascore, 200, 1000);
-			
 		//Draw Teams
 		context.font = '40px Oswald';
 		context.fillStyle = "#000000";
-		context.fillText(home, 200, 300);
+		context.fillText(home, 195, 625);
+		context.fillText(away, 195, 1075);
+		
+		//Draw Time and Location
+		context.font = '40px Orbitron';
 		context.fillStyle = "#FFFFFF";
-		context.fillText(away, 200, 900);
+		context.fillText(timetext, 195, 1195);
+		context.fillText(placetext, 195, 1245);
 	});
 }
