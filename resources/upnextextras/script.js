@@ -1,83 +1,20 @@
-const templateImg = "./matchdayextras/template.png";
+const templateImg = "./upnextextras/template.png";
+const pointImg = "./upnextextras/point.png";
 const actionX = 660;
 const actionY = 940;
 var focusX,focusY;
 
-function loadActionImage() {
-        var input, file, fr, img;
-
-        if (typeof window.FileReader !== 'function') {
-            write("The file API isn't supported on this browser yet.");
-            return;
-        }
-
-        input = document.getElementById('imgfile');
-        if (!input) {
-            write("Um, couldn't find the imgfile element.");
-        }
-        else if (!input.files) {
-            write("This browser doesn't seem to support the `files` property of file inputs.");
-        }
-        else if (!input.files[0]) {
-            write("Please select a file before clicking 'Load'");
-        }
-        else {
-            file = input.files[0];
-            fr = new FileReader();
-            fr.onload = createImage;
-            fr.readAsDataURL(file);
-        }
-
-        function createImage() {
-            img = new Image();
-            img.onload = imageLoaded;
-            img.src = fr.result;
-        }
-
-        function imageLoaded() {
-            var canvas = document.getElementById("preview")
-            canvas.width = img.width;
-            canvas.height = img.height;
-            var ctx = canvas.getContext("2d");
-            ctx.drawImage(img,0,0);
-        }
-
-        function write(msg) {
-            var p = document.createElement('p');
-            p.innerHTML = msg;
-            document.body.appendChild(p);
-        }
-}
-
-function setListener(){
-	const canvas = document.getElementById("preview")
-		canvas.addEventListener('mousedown', function(e) {
-		getCursorPosition(canvas, e)
-	})
-}
-
-function getCursorPosition(canvas, event) {
-    const rect = canvas.getBoundingClientRect();
-    focusX = event.clientX - rect.left;
-    focusY = event.clientY - rect.top;
-    console.log("x: " + focusX + " y: " + focusY);
-	var finalCanvas = document.getElementById('myCanvas'),
-	context = finalCanvas.getContext('2d');
-	context.drawImage(canvas, focusX-(actionX/2), focusY-(actionY/2),actionX,actionY,355,355,actionX,actionY);
-}
-
-function generateImage(home,away,crest,placetext,timetext){
+function generateImage(){
 	var canvas = document.getElementById('myCanvas'),
 	context = canvas.getContext('2d');
 	
 	//Prepare Images to load
 	let base_image = new Image();
-	let crest_image = new Image();
+	let point_image = new Image();
 	
 	base_image.src = templateImg;
-	
-	crest_image.src = "./clubicons/" + crest + ".png";
-	let images = [base_image, crest_image]
+	point_image.src = pointImg;
+	let images = [base_image, point_image]
 	
 	function imageIsLoaded(image) {
 	  return new Promise(resolve => {
@@ -89,23 +26,19 @@ function generateImage(home,away,crest,placetext,timetext){
 	Promise.all(images.map(imageIsLoaded)).then(() => {
 		//Draw Images
 		context.drawImage(base_image, 0, 0);
-		context.drawImage(crest_image, 70, 850);
 		
-		//Set Constants
-		context.textAlign = "center";
-		context.textBaseline = "top";
-			
-		//Draw Teams
-		context.font = '40px Oswald';
-		context.fillStyle = "#000000";
-		context.fillText(home, 195, 625);
-		context.fillText(away, 195, 1075);
+		context.fillStyle = "white";
+		context.fillRect(45,360,200,350);
+		context.fillRect(45,785,200,350);
+		context.strokeStyle = "white";
+		context.lineWidth = "2";
+		context.strokeRect(45,1175, 200,140);
 		
-		//Draw Time and Location
-		context.font = '40px Orbitron';
-		context.fillStyle = "#FFFFFF";
-		context.fillText(timetext, 195, 1195);
-		context.font = '20px Orbitron';
-		context.fillText(placetext, 195, 1245);
+		context.strokeStyle = "red";
+		context.moveTo(45, 747.5);
+		context.lineTo(245, 747.5);
+		context.stroke();
+		
+		context.drawImage(point_image, 900, 215);
 	});
 }
