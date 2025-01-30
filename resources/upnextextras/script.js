@@ -57,10 +57,22 @@ function drawMatch(context, x, crest) {
 		context.lineTo((x+200), 725);
 		context.stroke();
 		
-		//Setup and create Text
 		context.textAlign = "center";
+		
+		//Draw Teams Text
+		context.font = '35px Oswald';
+		context.fillStyle = "#000000";
+		context.fillText("RANGERS", (x + 100), 625);
+		context.fillText("SILVERBACKS", (x + 100), 1025);
+		
+		//Draw VS Text
+		context.font = '30px Oswald';
 		context.fillStyle = "#FFFFFF";
+		context.fillText("VS", (x + 100), 737.5);
+		
+		//Setup and create time Text
 		context.font = '30px Orbitron';
+		context.fillStyle = "#FFFFFF";
 		context.fillText("12:00PM", (x + 100), 1200);
 		context.font = '20px Orbitron';
 		context.fillText("WAIKANAE PARK", (x + 100), 1225);
