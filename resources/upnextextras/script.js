@@ -1,9 +1,9 @@
 const templateImg = "./upnextextras/template.png";
 const pointImg = "./upnextextras/point.png";
-const waikanaeImg = "./smallclubicons/waikanae.png";
 const actionX = 660;
 const actionY = 940;
 var focusX,focusY;
+var count = 0;
 
 function generateImage(){
 	var canvas = document.getElementById('myCanvas'),
@@ -12,12 +12,19 @@ function generateImage(){
 	//Prepare Images to load
 	let base_image = new Image();
 	let point_image = new Image();
-	let waikanae_image = new Image();
-	
+	let waikanae_crest = new Image();
+	let kcu_crest = new Image();
+	let otaki_crest = new Image();
+	let paekak_crest = new Image();
+	let manakau_crest = new Image();
 	base_image.src = templateImg;
 	point_image.src = pointImg;
-	waikanae_image.src = waikanaeImg;
-	let images = [base_image, point_image, waikanae_image]
+	waikanae_crest.src = "./smallclubicons/waikanae.png";
+	kcu_crest.src = "./smallclubicons/kcu.png";
+	otaki_crest.src = "./smallclubicons/otaki.png";
+	paekak_crest.src = "./smallclubicons/paekakariki.png";
+	manakau_crest.src = "./smallclubicons/manakau.png";
+	let images = [base_image, point_image, waikanae_crest,kcu_crest,otaki_crest,paekak_crest,manakau_crest]
 	
 	function imageIsLoaded(image) {
 	  return new Promise(resolve => {
@@ -30,17 +37,26 @@ function generateImage(){
 		//Draw Images
 		context.drawImage(base_image, 0, 0);
 		
-		drawMatch(context, 35, waikanae_image);
-		drawMatch(context, 240, waikanae_image);
-		drawMatch(context, 445, waikanae_image);
-		drawMatch(context, 650, waikanae_image);
-		drawMatch(context, 855, waikanae_image);
+		//startPosition set as half the screen minus half the total width of the blocks
+		let startPos = 540 - ((205*count)/2);
+		
+		for (let i = 1; i <= count; i++) {
+ 			//Find Values for Matches inputted
+ 			var home = 'home' + i;
+ 			var away = 'away' + i;
+ 			var location = 'location' + i;
+ 			var time = 'time' + i;
+ 			var crest = 'crest' + i;
+			
+			drawMatch(context, startPos, document.getElementById(home).value, document.getElementById(away).value, document.getElementById(location).value, document.getElementById(time).value,waikanae_crest,eval(document.getElementById(crest).value));
+			startPos += 205;
+		}
 		
 		context.drawImage(point_image, 900, 215);
 	});
 }
 
-function drawMatch(context, x, crest) {	
+function drawMatch(context, x, home, away, location, time, homecrest, crest) {	
 		//Set Initial Colours
 		context.fillStyle = "white";
 		context.strokeStyle = "white";
@@ -62,21 +78,57 @@ function drawMatch(context, x, crest) {
 		//Draw Teams Text
 		context.font = '35px Oswald';
 		context.fillStyle = "#000000";
-		context.fillText("RANGERS", (x + 100), 625);
-		context.fillText("SILVERBACKS", (x + 100), 1025);
+		let homeLines = home.split(/ /g);
+		let homeStartY = 625;
+		for (let i = 0; i < homeLines.length; i++) {
+			context.fillText(homeLines[i], (x + 100), homeStartY);
+			homeStartY += 40;
+		}
+		let awayLines = away.split(/ /g);
+		let awayStartY = 1025;
+		for (let i = 0; i < awayLines.length; i++) {
+			context.fillText(awayLines[i], (x + 100), awayStartY);
+			awayStartY += 40;
+		}
 		
 		//Draw VS Text
 		context.font = '30px Oswald';
 		context.fillStyle = "#FFFFFF";
-		context.fillText("VS", (x + 100), 737.5);
+		context.fillText("AT", (x + 100), 737.5);
 		
 		//Setup and create time Text
 		context.font = '30px Orbitron';
 		context.fillStyle = "#FFFFFF";
-		context.fillText("12:00PM", (x + 100), 1200);
+		context.fillText(time, (x + 100), 1200);
 		context.font = '20px Orbitron';
-		context.fillText("WAIKANAE PARK", (x + 100), 1225);
+		context.fillText(location, (x + 100), 1225);
 		
-		context.drawImage(crest, (x + 10), 450);
+		context.drawImage(homecrest, (x + 10), 450);
 		context.drawImage(crest, (x + 10), 850);
 }
+
+function addMatch(){
+ 	if(count == 5){ return; }
+ 	count++;
+ 	const div = document.createElement('div');
+ 	div.id = "div" + count;
+ 	div.innerHTML = `
+ 	<label for="home${count}">Home Team:</label>
+     <input type="text" id="home${count}" name="home${count}"/>
+ 	<label for="away${count}">Away Team:</label>
+ 	<input type="text" id="away${count}" name="away${count}"/>
+ 	<label for="location${count}">Location:</label>
+ 	<input type="text" id="location${count}" name="location${count}"/>
+ 	<label for="time${count}">Time:</label>
+ 	<input type="text" id="time${count}" name="time${count}"/>
+ 	<label for="crest${count}">Choose a crest for the Opponent:</label>
+ 	<select name="crest${count}" id="crest${count}">
+ 		<option value="waikanae_crest">Waikanae</option>
+ 		<option value="kcu_crest">KCU</option>
+ 		<option value="paekak_crest">Paekakariki</option>
+ 		<option value="otaki_crest">Otaki</option>
+ 		<option value="manakau_crest">Manakau</option>
+ 	</select><br>
+   `;
+   document.getElementById('matches').appendChild(div);
+ }
