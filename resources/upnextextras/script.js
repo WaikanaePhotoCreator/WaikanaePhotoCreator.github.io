@@ -44,11 +44,12 @@ function generateImage(){
  			//Find Values for Matches inputted
  			var home = 'home' + i;
  			var away = 'away' + i;
+			var date = 'date' + i;
  			var location = 'location' + i;
  			var time = 'time' + i;
  			var crest = 'crest' + i;
 			
-			drawMatch(context, startPos, document.getElementById(home).value, document.getElementById(away).value, document.getElementById(location).value, document.getElementById(time).value,waikanae_crest,eval(document.getElementById(crest).value));
+			drawMatch(context, startPos, document.getElementById(home).value, document.getElementById(away).value, document.getElementById(date).value, document.getElementById(location).value, document.getElementById(time).value,waikanae_crest,eval(document.getElementById(crest).value));
 			startPos += 205;
 		}
 		
@@ -56,7 +57,7 @@ function generateImage(){
 	});
 }
 
-function drawMatch(context, x, home, away, location, time, homecrest, crest) {	
+function drawMatch(context, x, home, away, date, location, time, homecrest, crest) {	
 		//Set Initial Colours
 		context.fillStyle = "white";
 		context.strokeStyle = "white";
@@ -96,11 +97,13 @@ function drawMatch(context, x, home, away, location, time, homecrest, crest) {
 		context.fillStyle = "#FFFFFF";
 		context.fillText("AT", (x + 100), 737.5);
 		
-		//Setup and create time Text
-		context.font = '30px Orbitron';
+		//Setup and create time Text	
 		context.fillStyle = "#FFFFFF";
-		context.fillText(time, (x + 100), 1200);
 		context.font = '20px Orbitron';
+		context.fillText(date, (x + 100), 1150);
+		context.font = '30px Orbitron';
+		context.fillText(time, (x + 100), 1200);
+		context.font = '15px Orbitron';
 		context.fillText(location, (x + 100), 1225);
 		
 		context.drawImage(homecrest, (x + 10), 450);
@@ -117,6 +120,8 @@ function addMatch(){
      <input type="text" id="home${count}" name="home${count}"/>
  	<label for="away${count}">Away Team:</label>
  	<input type="text" id="away${count}" name="away${count}"/>
+	<label for="date${count}">Date:</label>
+ 	<input type="text" id="date${count}" name="date${count}"/>
  	<label for="location${count}">Location:</label>
  	<input type="text" id="location${count}" name="location${count}"/>
  	<label for="time${count}">Time:</label>
