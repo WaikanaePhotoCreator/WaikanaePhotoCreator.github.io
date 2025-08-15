@@ -95,7 +95,7 @@ function drawMatch(context, x, home, away, date, location, time, homecrest, cres
 		//Draw VS Text
 		context.font = '30px Oswald';
 		context.fillStyle = "#FFFFFF";
-		context.fillText("AT", (x + 100), 737.5);
+		context.fillText("VS", (x + 100), 737.5);
 		
 		//Setup and create time Text	
 		context.fillStyle = "#FFFFFF";
