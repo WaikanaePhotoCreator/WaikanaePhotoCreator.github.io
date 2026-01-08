@@ -13,18 +13,24 @@ function generateImage(){
 	let base_image = new Image();
 	let point_image = new Image();
 	let waikanae_crest = new Image();
-	let kcu_crest = new Image();
-	let otaki_crest = new Image();
-	let paekak_crest = new Image();
-	let manakau_crest = new Image();
 	base_image.src = templateImg;
 	point_image.src = pointImg;
-	waikanae_crest.src = "./smallclubicons/waikanae.png";
-	kcu_crest.src = "./smallclubicons/kcu.png";
-	otaki_crest.src = "./smallclubicons/otaki.png";
-	paekak_crest.src = "./smallclubicons/paekakariki.png";
-	manakau_crest.src = "./smallclubicons/manakau.png";
-	let images = [base_image, point_image, waikanae_crest,kcu_crest,otaki_crest,paekak_crest,manakau_crest]
+	waikanae_crest.id = "Waikanae FC"
+	waikanae_crest.src = "./Clubs/Waikanae FC/small.png";
+	let images = [base_image, point_image, waikanae_crest]
+	
+	fetch('./Clubs/clubs.json')
+				  .then(response => response.json())
+				  .then(files => {
+					files.forEach(file => {
+					  let temp_crest = new Image();
+					  temp_crest.id = file;
+					  temp_crest.src = "./Clubs/" + file + "/small.png";
+					});
+				  })
+				  .catch(error => {
+					console.error('Error loading files:', error);
+				  });
 	
 	function imageIsLoaded(image) {
 	  return new Promise(resolve => {
@@ -127,13 +133,21 @@ function addMatch(){
  	<label for="time${count}">Time:</label>
  	<input type="text" id="time${count}" name="time${count}"/>
  	<label for="crest${count}">Choose a crest for the Opponent:</label>
- 	<select name="crest${count}" id="crest${count}">
- 		<option value="waikanae_crest">Waikanae</option>
- 		<option value="kcu_crest">KCU</option>
- 		<option value="paekak_crest">Paekakariki</option>
- 		<option value="otaki_crest">Otaki</option>
- 		<option value="manakau_crest">Manakau</option>
- 	</select><br>
+ 	<select name="crest${count}" id="crest${count}"></select><br>
+	<script>
+				var selectElement = document.getElementById('crest${count}');
+	
+				fetch('./Clubs/clubs.json')
+				  .then(response => response.json())
+				  .then(files => {
+					files.forEach(file => {
+					  selectElement.add(new Option(file));
+					});
+				  })
+				  .catch(error => {
+					console.error('Error loading files:', error);
+				  });
+				 </script>
    `;
    document.getElementById('matches').appendChild(div);
  }
