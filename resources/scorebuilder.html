@@ -25,13 +25,21 @@
 				<label for="opponenttext">Opponent:</label><br>
 				<input type="text" id="opponenttext" name="opponenttext"><br>
 				<label for="crest">Choose a crest for the Opponent:</label>
-				<select name="crest" id="crest">
-				  <option value="waikanae">Waikanae</option>
-				  <option value="kcu">KCU</option>
-				  <option value="paekakariki">Paekakariki</option>
-				  <option value="otaki">Otaki</option>
-				  <option value="manakau">Manakau</option>
-				</select>
+				<select name="crest" id="crest"></select>
+				<script>
+				var selectElement = document.getElementById('crest');
+	
+				fetch('./Clubs/clubs.json')
+				  .then(response => response.json())
+				  .then(files => {
+					files.forEach(file => {
+					  selectElement.add(new Option(file));
+					});
+				  })
+				  .catch(error => {
+					console.error('Error loading files:', error);
+				  });
+				 </script>
 	</div>
 	<div class="score">
 		<h1> Step 3. Now, select the score of the match: </h1><br>

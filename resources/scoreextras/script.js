@@ -82,7 +82,7 @@ function generateImage(home,away,crest,hscore,ascore,fullorhalf){
 		base_image.src = halfTemplateImg;
 	}
 	
-	crest_image.src = "./clubicons/" + crest + ".png";
+	crest_image.src = "./Clubs/" + crest + "/large.png";
 	let images = [base_image, crest_image]
 	
 	function imageIsLoaded(image) {
