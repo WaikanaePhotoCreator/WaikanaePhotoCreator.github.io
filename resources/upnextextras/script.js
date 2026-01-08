@@ -135,6 +135,9 @@ function addMatch(){
  	<label for="crest${count}">Choose a crest for the Opponent:</label>
  	<select name="crest${count}" id="crest${count}"></select><br>
    `;
+   
+   document.getElementById('matches').appendChild(div);
+   
    var name = 'crest' + count;
    var selectElement = document.getElementById(name);
 	
@@ -148,5 +151,4 @@ function addMatch(){
 	.catch(error => {
 		console.error('Error loading files:', error);
 	});
-   document.getElementById('matches').appendChild(div);
  }
