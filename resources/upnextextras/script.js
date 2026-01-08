@@ -134,20 +134,18 @@ function addMatch(){
  	<input type="text" id="time${count}" name="time${count}"/>
  	<label for="crest${count}">Choose a crest for the Opponent:</label>
  	<select name="crest${count}" id="crest${count}"></select><br>
-	<script>
-				var selectElement = document.getElementById('crest${count}');
-	
-				fetch('./Clubs/clubs.json')
-				  .then(response => response.json())
-				  .then(files => {
-					files.forEach(file => {
-					  selectElement.add(new Option(file));
-					});
-				  })
-				  .catch(error => {
-					console.error('Error loading files:', error);
-				  });
-				 </script>
    `;
+   var selectElement = document.getElementById('crest${count}');
+	
+   fetch('./Clubs/clubs.json')
+	.then(response => response.json())
+	.then(files => {
+	files.forEach(file => {
+		selectElement.add(new Option(file));
+	});
+	})
+	.catch(error => {
+		console.error('Error loading files:', error);
+	});
    document.getElementById('matches').appendChild(div);
  }
