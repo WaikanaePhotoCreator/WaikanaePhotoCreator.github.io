@@ -54,8 +54,9 @@ function generateImage(){
  			var location = 'location' + i;
  			var time = 'time' + i;
  			var crest = 'crest' + i;
+			var crestimg = images.find(image => image.id === document.getElementById(crest).value)
 			
-			drawMatch(context, startPos, document.getElementById(home).value, document.getElementById(away).value, document.getElementById(date).value, document.getElementById(location).value, document.getElementById(time).value,waikanae_crest,eval(document.getElementById(crest).value));
+			drawMatch(context, startPos, document.getElementById(home).value, document.getElementById(away).value, document.getElementById(date).value, document.getElementById(location).value, document.getElementById(time).value,waikanae_crest,crestimg);
 			startPos += 205;
 		}
 		
