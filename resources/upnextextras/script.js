@@ -9,6 +9,8 @@ function generateImage(){
 	var canvas = document.getElementById('myCanvas'),
 	context = canvas.getContext('2d');
 	
+	let images = [];
+	
 	//Prepare Images to load
 	let base_image = new Image();
 	let point_image = new Image();
@@ -17,7 +19,6 @@ function generateImage(){
 	point_image.src = pointImg;
 	waikanae_crest.id = "Waikanae FC"
 	waikanae_crest.src = "./Clubs/Waikanae FC/small.png";
-	let images = [base_image, point_image, waikanae_crest]
 	
 	fetch('./Clubs/clubs.json')
 				  .then(response => response.json())
@@ -26,11 +27,11 @@ function generateImage(){
 					  let temp_crest = new Image();
 					  temp_crest.id = file;
 					  temp_crest.src = "./Clubs/" + file + "/small.png";
+					  images.push(temp_crest);
 					});
-				  })
-				  .catch(error => {
-					console.error('Error loading files:', error);
-				  });
+					images.push(base_image);
+	images.push(point_image);
+	images.push(waikanae_crest);
 	
 	function imageIsLoaded(image) {
 	  return new Promise(resolve => {
@@ -62,6 +63,10 @@ function generateImage(){
 		
 		context.drawImage(point_image, 900, 215);
 	});
+				  })
+				  .catch(error => {
+					console.error('Error loading files:', error);
+				  });
 }
 
 function drawMatch(context, x, home, away, date, location, time, homecrest, crest) {	
