@@ -56,6 +56,21 @@ function setListener(){
 	})
 }
 
+function populateSelect(){
+	var selectElement = document.getElementById('crest');
+	
+	fetch('./Clubs/clubs.json')
+      .then(response => response.json())
+      .then(files => {
+        files.forEach(file => {
+		  selectElement.add(new Option(file));
+        });
+      })
+      .catch(error => {
+        console.error('Error loading files:', error);
+      });
+}
+
 function getCursorPosition(canvas, event) {
     const rect = canvas.getBoundingClientRect();
     focusX = event.clientX - rect.left;
