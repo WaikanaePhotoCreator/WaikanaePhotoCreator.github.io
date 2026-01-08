@@ -135,7 +135,8 @@ function addMatch(){
  	<label for="crest${count}">Choose a crest for the Opponent:</label>
  	<select name="crest${count}" id="crest${count}"></select><br>
    `;
-   var selectElement = document.getElementById('crest${count}');
+   var name = 'crest' + count;
+   var selectElement = document.getElementById(name);
 	
    fetch('./Clubs/clubs.json')
 	.then(response => response.json())
